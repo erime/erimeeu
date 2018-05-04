@@ -1,0 +1,15 @@
+<div>
+  <h2>Categories:</h2>
+  <hr>
+  <div *ngIf="categoriesLoadStatus==='loading'">Loading categories...</div>
+  <div *ngIf="categoriesLoadStatus==='error'">Error loading categories</div>
+  <div *ngIf="categoriesLoadStatus==='success'">
+    <div *ngFor='let category of categories'>
+      <a href="{{category.link}}">{{category.name}}</a>
+      <p>{{category.id}}</p>
+      <p *ngIf='isDiet(category.id)' class="cat-{{category.slug}}"></p>
+      <p>Recipes: {{category.count}}</p>
+      <hr>
+    </div>
+  </div>
+</div>

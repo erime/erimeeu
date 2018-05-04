@@ -1,0 +1,130 @@
+.wrap {
+  overflow: hidden;
+  margin: 10px;
+}
+
+div.post-outer {
+  width: 25%;
+  padding-bottom: 25%; 
+  float: left;
+  font-family: sans-serif;
+  position: relative;
+
+  .post-inner {
+    position: absolute;
+    left: 2px;
+    right: 2px;
+    top: 2px;
+    bottom: 2px;
+    border: 1px solid #bbbbbb;
+    background-color: #fff;
+    padding: 5px;
+    overflow: hidden;
+
+    .loader {
+      padding: 25%;
+    }
+
+    img {
+      width: 100%;
+    }
+  }  
+
+  h1 {
+    font-size: medium;
+    position: absolute;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.5);
+    color: #FFF;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  div.diets {
+    position: absolute;
+    border-radius: 40px;
+    right: 5px;
+    bottom: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    padding: 6px;
+    padding-bottom: 0px;
+    margin: 5px;
+    text-align: right;
+    vertical-align: center;
+    
+    .diet {
+      margin: 3px;
+    }
+  }
+
+  p.post-date {
+    font-style: italic;
+  }
+}
+
+.cat-vegan {
+    width: 20px;
+    height: 22px;
+    background: url(../../assets/img/cat-vegan.svg) no-repeat top left;
+    background-size: contain;
+    display: inline-block;
+}
+.cat-vegetarian {
+    width: 20px;
+    height: 22px;
+    background: url(../../assets/img/cat-vegetarian.svg) no-repeat top left;
+    background-size: contain;
+    display: inline-block;
+}
+.cat-gluten-free {
+    width: 20px;
+    height: 22px;
+    background: url(../../assets/img/cat-gluten-free.svg) no-repeat top left;
+    background-size: contain;
+    display: inline-block;
+}
+.cat-dairy-free {
+    width: 20px;
+    height: 22px;
+    background: url(../../assets/img/cat-dairy-free.svg) no-repeat top left;
+    background-size: contain;
+    display: inline-block;
+}
+.cat-low-fodmap {
+    width: 20px;
+    height: 22px;
+    background: url(../../assets/img/cat-low-fodmap.svg) no-repeat top left;
+    background-size: contain;
+    display: inline-block;
+}
+
+@media only screen and (max-width : 480px) {
+  /* Smartphone view: 1 tile */
+  div.post-outer {
+    width: 100%;
+    padding-bottom: 100%;
+  }
+}
+@media only screen and (max-width : 650px) and (min-width : 481px) {
+  /* Tablet view: 2 tiles */
+  div.post-outer {
+    width: 50%;
+    padding-bottom: 50%;
+  }
+}
+@media only screen and (max-width : 1050px) and (min-width : 651px) {
+  /* Small desktop / ipad view: 3 tiles */
+  div.post-outer {
+    width: 33.3%;
+    padding-bottom: 33.3%;
+  }
+}
+@media only screen and (max-width : 1290px) and (min-width : 1051px) {
+  /* Medium desktop: 4 tiles */
+  div.post-outer {
+    width: 25%;
+    padding-bottom: 25%;
+  }
+}
+
