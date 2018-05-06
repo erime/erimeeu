@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core'
 import {CategoriesService} from '../services/categories.service'
 
 import {Category} from '../services/category'
@@ -15,22 +15,22 @@ export class CategoriesListComponent implements OnInit {
   //let CAT_DIET_ID = 469;
   categories: Category[]
   diets: Category[]
-  
+
   categoriesLoadStatus: string
   dietsLoadStatus: string
 
   constructor(private _categoriesService: CategoriesService) {
-    
+
   }
 
   getDiets() {
     this.dietsLoadStatus = 'loading'
     this._categoriesService.getDiets().subscribe(data => {
-        this.diets = data;
-        this.dietsLoadStatus = 'success'
-        }, err => {
-          this.dietsLoadStatus = 'error'
-        });
+      this.diets = data
+      this.dietsLoadStatus = 'success'
+    }, err => {
+      this.dietsLoadStatus = 'error'
+    })
   }
 
   isDiet(id: number): boolean {
@@ -43,15 +43,15 @@ export class CategoriesListComponent implements OnInit {
     }
     return false
   }
-  
+
   getCategories() {
     this.categoriesLoadStatus = 'loading'
     this._categoriesService.getCategories().subscribe(data => {
-        this.categories = data;
-        this.categoriesLoadStatus = 'success'
-        }, err => {
-          this.categoriesLoadStatus = 'error'
-        });
+      this.categories = data
+      this.categoriesLoadStatus = 'success'
+    }, err => {
+      this.categoriesLoadStatus = 'error'
+    })
   }
 
   ngOnInit() {

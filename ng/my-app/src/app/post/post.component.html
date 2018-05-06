@@ -1,0 +1,24 @@
+<div *ngIf="postLoadStatus==='success'">
+  <h1>{{post.title.rendered}}</h1>
+
+  <div *ngIf="isShoppingList">
+    <button *ngIf="post.acf.ingredients" (click)="showRecipe()">Recipe</button>
+    <div [innerHtml]="post.acf.ingredients"></div>
+  </div>
+  <div *ngIf="!isShoppingList">
+    <button *ngIf="post.acf.ingredients" (click)="showShoppingList()">Shopping list</button>
+    <div class="diets">
+      <div *ngFor='let diet of post.diets' class="diet cat-{{diet.slug}}" title="{{diet.name}}"></div>
+    </div>
+    <div [innerHtml]="post.content.rendered"></div>
+  </div>
+
+</div>
+
+<div *ngIf="postLoadStatus==='loading'" class="post-outer">
+  <div class="post-inner">
+    <div class="loader">
+      <img src="assets/img/loader-2_fooda.gif">
+    </div>
+  </div>
+</div>

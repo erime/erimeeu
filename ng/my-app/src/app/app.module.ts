@@ -1,55 +1,60 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
-import { RouterModule, Routes } from '@angular/router';
+import {BrowserModule} from '@angular/platform-browser'
+import {NgModule} from '@angular/core'
+import {HttpClientModule} from '@angular/common/http'
+import {RouterModule, Routes} from '@angular/router'
 
 
-import { AppComponent } from './app.component';
-import { PostListComponent } from './post-list/post-list.component';
-import { CategoriesListComponent } from './categories-list/categories-list.component';
+import {AppComponent} from './app.component'
+import {PostListComponent} from './post-list/post-list.component'
+import {PostComponent} from './post/post.component'
+import {CategoriesListComponent} from './categories-list/categories-list.component'
 
-import {CategoriesService} from './services/categories.service';
-import {PostsService} from './services/posts.service';
-import {MediaService} from './services/media.service';
+import {CategoriesService} from './services/categories.service'
+import {PostsService} from './services/posts.service'
+import {MediaService} from './services/media.service'
+
 
 const appRoutes: Routes = [
   {
     path: 'categories',
     component: CategoriesListComponent,
-    data: { title: 'Categories List' }
+    data: {title: 'Categories List'}
   },
   {
     path: 'posts',
     component: PostListComponent,
-    data: { title: 'Posts List' }
+    data: {title: 'Posts List'}
   },
   {
-    path: 'posts/:slug',
-    component: PostListComponent,
-    data: { title: 'Posts List' }
+    path: 'post/:id',
+    component: PostComponent,
+    data: {title: 'Post'}
   },
-  { path: '',
+  {
+    path: '',
     redirectTo: '/posts',
     pathMatch: 'full'
   },
-  { path: '**', 
-    component: PostListComponent 
+  {
+    path: '**',
+    component: PostListComponent
   }
-];
+]
 
 
 @NgModule({
   declarations: [
     AppComponent,
     PostListComponent,
-    CategoriesListComponent
+    CategoriesListComponent,
+    PostComponent
   ],
   imports: [
     HttpClientModule,
     BrowserModule,
     RouterModule.forRoot(
       appRoutes,
-      { enableTracing: true } // <-- debugging purposes only
+      {enableTracing: true} // <-- debugging purposes only
     )
   ],
   providers: [
@@ -59,4 +64,5 @@ const appRoutes: Routes = [
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

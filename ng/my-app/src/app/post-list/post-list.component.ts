@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, Inject, HostListener} from '@angular/core'
+import {Component, HostListener, Inject, OnInit} from '@angular/core'
 import {ActivatedRoute, Router} from '@angular/router'
 
 import {PostsService} from '../services/posts.service'
@@ -6,7 +6,6 @@ import {MediaService} from '../services/media.service'
 import {CategoriesService} from '../services/categories.service'
 
 import {Post} from '../services/post'
-import {Media} from '../services/media'
 import {Category} from '../services/category'
 import {DOCUMENT} from '@angular/common'
 
@@ -20,34 +19,25 @@ export class PostListComponent implements OnInit {
 
   isBottom: boolean
   pos: string
-  
+
   posts: Post[]
   diets: Category[]
   page: number
   postsPerPage: number
   totalPosts: number
   totalPages: number
-  
-  slug: string
 
   postsLoadStatus: string
   dietsLoadStatus: string
 
   constructor(private _postsService: PostsService, private _mediaService: MediaService,
-    private _categoriesService: CategoriesService, private route: ActivatedRoute,
-    private router: Router, @Inject(DOCUMENT) private document: Document) {
-    
+              private _categoriesService: CategoriesService, private route: ActivatedRoute,
+              private router: Router, @Inject(DOCUMENT) private document: Document) {
+
     this.posts = []
-    
+
     this.page = 1
     this.postsPerPage = 6
-    
-    this.route.params.subscribe(res => {
-      this.slug = res['slug']
-      if (this.slug) {
-        //this.router.navigate([''])
-      }
-    })
   }
 
   getMedia(post: Post) {
@@ -79,11 +69,11 @@ export class PostListComponent implements OnInit {
   getDiets() {
     this.dietsLoadStatus = 'loading'
     this._categoriesService.getDiets().subscribe(data => {
-      this.diets = data;
+      this.diets = data
       this.dietsLoadStatus = 'success'
     }, err => {
       this.dietsLoadStatus = 'error'
-    });
+    })
   }
 
   getDiet(id: number): Category {
@@ -122,23 +112,20 @@ export class PostListComponent implements OnInit {
       this.postsLoadStatus = 'success'
     }, err => {
       this.postsLoadStatus = 'error'
-    });
+    })
   }
 
   ngOnInit() {
     this.getPosts(this.page)
     this.getDiets()
     this.onWindowScroll()
-    while (this.isBottom) {
-      this.onWindowScroll()
-    }
   }
-  
+
   @HostListener("window:scroll", [])
   onWindowScroll() {
     const element = this.document.scrollingElement
     this.isBottom = element.scrollHeight - element.scrollTop <= element.clientHeight + 100
-    this.pos = '' + element.scrollHeight  +  ' ' + element.scrollTop + ' ' + element.clientHeight
+    this.pos = '' + element.scrollHeight + ' ' + element.scrollTop + ' ' + element.clientHeight
     console.log(this.isBottom, element.scrollHeight - element.scrollTop, element.clientHeight)
     if (this.isBottom && this.posts.length < this.totalPosts && this.postsLoadStatus === 'success') {
       this.nextPage()
