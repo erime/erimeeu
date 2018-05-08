@@ -1,12 +1,14 @@
 <div class="header" [ngClass]="{'smaller': smallHeader}">
   <div class="container clearfix">
     <div id="logo"></div>
-    <nav>
-      <a routerLink="/categories" routerLinkActive="active">Categories</a>
-      <a routerLink="/posts" routerLinkActive="active">Posts</a>
-    </nav>
+
   </div>
 </div>
+
+<nav>
+  <a routerLink="/categories" routerLinkActive="active">Categories</a>
+  <a routerLink="/posts" routerLinkActive="active">Posts</a>
+</nav>
 
 <div class="content">
   <router-outlet></router-outlet>

@@ -34,7 +34,7 @@ export class CategoriesListComponent implements OnInit {
   }
 
   isDiet(id: number): boolean {
-    if (this.diets) {
+    if (this.diets && this.diets.length > 0) {
       for (let i = 0; i < this.diets.length; i++) {
         if (this.diets[i].id === id) {
           return true

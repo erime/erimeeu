@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core'
+import {Component, Inject, OnInit, ViewEncapsulation} from '@angular/core'
 import {ActivatedRoute, Router} from '@angular/router'
 
 import {PostsService} from '../services/posts.service'
@@ -13,7 +13,8 @@ import {Title} from '@angular/platform-browser'
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
-  styleUrls: ['./post.component.less']
+  styleUrls: ['./post.component.less'],
+  encapsulation: ViewEncapsulation.None
 })
 export class PostComponent implements OnInit {
   isShoppingList: boolean
@@ -47,7 +48,7 @@ export class PostComponent implements OnInit {
   }
 
   getDiet(id: number): Category {
-    if (this.diets) {
+    if (this.diets && this.diets.length > 0) {
       for (let diet of this.diets) {
         if (diet.id === id) {
           return diet
@@ -62,13 +63,26 @@ export class PostComponent implements OnInit {
     this._postsService.getPostByIdResponse(this.postId).subscribe(data => {
       this.post = data.body
       this.post.diets = []
-      for (let category of this.post.categories) {
-        let diet = this.getDiet(category)
-        if (diet) {
-          this.post.diets.push(diet)
+      if (this.post.categories && this.post.categories.length > 0) {
+        for (let category of this.post.categories) {
+          let diet = this.getDiet(category)
+          if (diet) {
+            this.post.diets.push(diet)
+          }
         }
       }
       this.titleService.setTitle(this.post.title.rendered)
+
+      if (this.post.acf.ingredients) {
+        let shoppingList: string[]
+        shoppingList = this.post.acf.ingredients.split('<br />')
+        this.post.shoppingList = []
+        if (shoppingList && shoppingList.length > 0) {
+          for (let ingredient of shoppingList) {
+            this.post.shoppingList.push({checked: false, name: ingredient})
+          }
+        }
+      }
 
       this.postLoadStatus = 'success'
     }, err => {
@@ -87,5 +101,30 @@ export class PostComponent implements OnInit {
 
   showRecipe() {
     this.isShoppingList = false
+  }
+
+  clearShoppingList() {
+    if (this.post.shoppingList && this.post.shoppingList.length > 0) {
+      for (let ingredient of this.post.shoppingList) {
+        ingredient.checked = false
+      }
+    }
+  }
+
+  copyIngredients() {
+    let selBox = document.createElement('textarea');
+
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = this.post.acf.ingredients;
+
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
   }
 }

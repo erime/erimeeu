@@ -10,6 +10,8 @@ export class Post {
   categories: number[]
   slug: string
   title: any
+  acf: any
+  shoppingList: any[]
 
   constructor() {
   }

@@ -77,7 +77,7 @@ export class PostListComponent implements OnInit {
   }
 
   getDiet(id: number): Category {
-    if (this.diets) {
+    if (this.diets && this.diets.length > 0) {
       for (let diet of this.diets) {
         if (diet.id === id) {
           return diet
@@ -101,10 +101,12 @@ export class PostListComponent implements OnInit {
           this.getMedia(post)
         }
         post.diets = []
-        for (let category of post.categories) {
-          let diet = this.getDiet(category)
-          if (diet) {
-            post.diets.push(diet)
+        if (post.categories && post.categories.length > 0) {
+          for (let category of post.categories) {
+            let diet = this.getDiet(category)
+            if (diet) {
+              post.diets.push(diet)
+            }
           }
         }
       }

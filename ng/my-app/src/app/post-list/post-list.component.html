@@ -5,7 +5,7 @@
   </div>
   <div *ngIf="postsLoadStatus==='error'">Error loading posts</div>
   <div *ngIf="posts.length > 0">
-    <a href="/post/{{post.id}}" *ngFor='let post of posts'>
+    <a [routerLink]="['/post/',post.id]" *ngFor='let post of posts'>
       <div class="post-outer">
 
         <div class="post-inner">
