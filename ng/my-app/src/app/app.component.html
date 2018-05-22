@@ -1,11 +1,10 @@
-<div class="header" [ngClass]="{'smaller': smallHeader}">
+<div class="header">
   <div class="container clearfix">
     <div id="logo"></div>
-
   </div>
 </div>
 
-<nav>
+<nav [ngClass]="{'fixed': fixedNav}">
   <a routerLink="/categories" routerLinkActive="active">Categories</a>
   <a routerLink="/posts" routerLinkActive="active">Posts</a>
 </nav>

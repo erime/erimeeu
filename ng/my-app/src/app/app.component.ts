@@ -10,7 +10,7 @@ import {DOCUMENT} from '@angular/common'
 export class AppComponent {
   title = 'app'
 
-  smallHeader = false
+  fixedNav = false
 
   constructor(@Inject(DOCUMENT) private document: Document) {
   }
@@ -19,11 +19,14 @@ export class AppComponent {
   onWindowScroll() {
     const element = this.document.scrollingElement
     const scroll = element.scrollTop
-    if (scroll >= 10) {
-      this.smallHeader = true
+    if (scroll >= 50) {
+      this.fixedNav = true
     } else {
-      this.smallHeader = false
+      this.fixedNav = false
     }
+
+
+
 
   }
 
