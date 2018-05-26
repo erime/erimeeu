@@ -112,19 +112,19 @@ export class PostComponent implements OnInit {
   }
 
   copyIngredients() {
-    let selBox = document.createElement('textarea');
+    let selBox = document.createElement('textarea')
 
-    selBox.style.position = 'fixed';
-    selBox.style.left = '0';
-    selBox.style.top = '0';
-    selBox.style.opacity = '0';
-    selBox.value = this.post.acf.ingredients;
+    selBox.style.position = 'fixed'
+    selBox.style.left = '0'
+    selBox.style.top = '0'
+    selBox.style.opacity = '0'
+    selBox.value = this.post.acf.ingredients
 
-    document.body.appendChild(selBox);
-    selBox.focus();
-    selBox.select();
+    document.body.appendChild(selBox)
+    selBox.focus()
+    selBox.select()
 
-    document.execCommand('copy');
-    document.body.removeChild(selBox);
+    document.execCommand('copy')
+    document.body.removeChild(selBox)
   }
 }
