@@ -2,11 +2,13 @@
   <div class="container clearfix">
     <div id="logo"></div>
   </div>
+  <div class="header__description">Recipe book</div>
 </div>
 
 <nav [ngClass]="{'fixed': fixedNav}">
-  <a routerLink="/categories" routerLinkActive="active">Categories</a>
-  <a routerLink="/posts" routerLinkActive="active">Posts</a>
+  <a routerLink="/posts" routerLinkActive="active" title="Home"><img id="home-button" src="assets/img/home.svg" /></a>
+  <a routerLink="/categories" routerLinkActive="active" title="Categories">Categories</a>
+  <a routerLink="/posts" routerLinkActive="active" title="Posts">Posts</a>
 </nav>
 
 <div class="content">
