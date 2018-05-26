@@ -125,10 +125,9 @@ export class PostListComponent implements OnInit {
 
   @HostListener("window:scroll", [])
   onWindowScroll() {
-    const element = this.document.scrollingElement
+    const element = this.document.documentElement
     this.isBottom = element.scrollHeight - element.scrollTop <= element.clientHeight + 100
     this.pos = '' + element.scrollHeight + ' ' + element.scrollTop + ' ' + element.clientHeight
-    console.log(this.isBottom, element.scrollHeight - element.scrollTop, element.clientHeight)
     if (this.isBottom && this.posts.length < this.totalPosts && this.postsLoadStatus === 'success') {
       this.nextPage()
     }

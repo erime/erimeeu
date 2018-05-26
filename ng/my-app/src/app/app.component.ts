@@ -17,9 +17,9 @@ export class AppComponent {
 
   @HostListener("window:scroll", [])
   onWindowScroll() {
-    const element = this.document.scrollingElement
+    const element = this.document.documentElement
     const scroll = element.scrollTop
-    if (scroll >= 50) {
+    if (scroll >= 44) {
       this.fixedNav = true
     } else {
       this.fixedNav = false
