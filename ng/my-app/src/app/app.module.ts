@@ -13,6 +13,7 @@ import {CategoriesListComponent} from './categories-list/categories-list.compone
 import {CategoriesService} from './services/categories.service'
 import {PostsService} from './services/posts.service'
 import {MediaService} from './services/media.service'
+import {SocialService} from './services/social.service'
 
 
 const appRoutes: Routes = [
@@ -56,13 +57,14 @@ const appRoutes: Routes = [
     FormsModule,
     RouterModule.forRoot(
       appRoutes,
-      {enableTracing: true} // <-- debugging purposes only
+      {enableTracing: false} // <-- debugging purposes only
     )
   ],
   providers: [
     CategoriesService,
     PostsService,
-    MediaService
+    MediaService,
+    SocialService
   ],
   bootstrap: [AppComponent]
 })

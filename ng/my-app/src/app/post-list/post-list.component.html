@@ -13,13 +13,9 @@
           <div class="diets">
             <div *ngFor='let diet of post.diets' class="diet cat-{{diet.slug}}" title="{{diet.name}}"></div>
           </div>
-          <!--<p class="post-date">Posted {{post.date | date}}</p>-->
-          <div class="loader" *ngIf="post.imageStatus ==='loading'">
-            <img src="assets/img/loader-2_fooda.gif">
-          </div>
+          <div class="spinner-loader" *ngIf="post.imageStatus ==='loading'"></div>
           <img *ngIf="post.image" src="{{post.image}}" alt="img">
           <img *ngIf="!post.image" src="assets/img/post-no-image.png" alt="img">
-          <!--<p [innerHTML]='post.content.rendered'></p>-->
         </div>
 
       </div>
@@ -27,10 +23,7 @@
   </div>
   <div *ngIf="postsLoadStatus==='loading'" class="post-outer">
     <div class="post-inner">
-      <div class="loader">
-        <img src="assets/img/loader-2_fooda.gif">
-      </div>
+      <div class="spinner-loader"></div>
     </div>
   </div>
-  {{isBottom}} {{pos}}
 </div>

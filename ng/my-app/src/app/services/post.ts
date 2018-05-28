@@ -12,6 +12,7 @@ export class Post {
   title: any
   acf: any
   shoppingList: any[]
+  link: string
 
   constructor() {
   }

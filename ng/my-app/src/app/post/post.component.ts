@@ -4,9 +4,12 @@ import {ActivatedRoute, Router} from '@angular/router'
 import {PostsService} from '../services/posts.service'
 import {MediaService} from '../services/media.service'
 import {CategoriesService} from '../services/categories.service'
+import {SocialService} from '../services/social.service'
 
 import {Post} from '../services/post'
 import {Category} from '../services/category'
+import {Facebook} from '../services/facebook'
+
 import {DOCUMENT} from '@angular/common'
 import {Title} from '@angular/platform-browser'
 
@@ -22,19 +25,38 @@ export class PostComponent implements OnInit {
   post: Post
   postId: number
 
+  fbShares: number
+
   diets: Category[]
 
   postLoadStatus: string
   dietsLoadStatus: string
+  fbLoadStatus: string
 
   constructor(private _postsService: PostsService, private _mediaService: MediaService,
-              private _categoriesService: CategoriesService, private route: ActivatedRoute,
+              private _categoriesService: CategoriesService, private _socialService: SocialService,
+              private route: ActivatedRoute,
               private router: Router, @Inject(DOCUMENT) private document: Document, private titleService: Title) {
 
     this.route.params.subscribe(res => {
       this.postId = res['id']
     })
 
+  }
+
+  getFb() {
+    this.fbLoadStatus = 'loading'
+    this._socialService.getFacebookData(this.post.link).subscribe(data => {
+      if (data.body.og_object) {
+        this.fbShares = data.body.og_object.engagement.count
+      }
+      else {
+        this.fbShares = 0
+      }
+      this.fbLoadStatus = 'success'
+    }, err => {
+      this.fbLoadStatus = 'error'
+    })
   }
 
   getDiets() {
@@ -83,7 +105,7 @@ export class PostComponent implements OnInit {
           }
         }
       }
-
+      this.getFb()
       this.postLoadStatus = 'success'
     }, err => {
       this.postLoadStatus = 'error'

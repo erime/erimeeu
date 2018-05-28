@@ -15,8 +15,11 @@ export class PostsService {
   }
 
   getPostsResponse(page: number, countPerPage: number): Observable<HttpResponse<Post[]>> {
+    let CAT_RECIPES_EN = 20
+    let CAT_RECIPES_CZ = 14
+
     return this._http.get<Post[]>(
-      'http://www.erime.eu/wp-json/wp/v2/posts?page=' + page + '&per_page=' + countPerPage,
+      'http://www.erime.eu/wp-json/wp/v2/posts?page=' + page + '&per_page=' + countPerPage + '&categories=' + CAT_RECIPES_EN,
       {observe: 'response'}
     ).do(data => {
     })

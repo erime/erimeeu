@@ -1,5 +1,7 @@
-<div *ngIf="postLoadStatus==='success'">
+<div id="post-wrapper" *ngIf="postLoadStatus==='success'">
   <h1>{{post.title.rendered}}</h1>
+
+  <div class="fb-likes"><img src="../../assets/img/facebook-logo.svg"/><div>{{fbShares}}</div></div>
 
   <div *ngIf="isShoppingList">
     <a class="button dish" *ngIf="post.acf.ingredients" (click)="showRecipe()">Recipe</a>
@@ -18,7 +20,7 @@
     </form>
   </div>
   <div *ngIf="!isShoppingList">
-    <a class="button cutlery" *ngIf="post.acf.ingredients" (click)="showShoppingList()">Shopping list</a>
+    <a class="button ingredients" *ngIf="post.acf.ingredients" (click)="showShoppingList()">Shopping list</a>
     <div class="diets">
       <div *ngFor='let diet of post.diets' class="diet cat-{{diet.slug}}" title="{{diet.name}}"></div>
     </div>
@@ -30,8 +32,6 @@
 
 <div *ngIf="postLoadStatus==='loading'" class="post-outer">
   <div class="post-inner">
-    <div class="loader">
-      <img src="assets/img/loader-2_fooda.gif">
-    </div>
+    <div class="spinner-loader"></div>
   </div>
 </div>
