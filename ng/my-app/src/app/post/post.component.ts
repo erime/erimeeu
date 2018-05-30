@@ -32,6 +32,7 @@ export class PostComponent implements OnInit {
   postLoadStatus: string
   dietsLoadStatus: string
   fbLoadStatus: string
+  private polylangPermalinkLoadStatus: string
 
   constructor(private _postsService: PostsService, private _mediaService: MediaService,
               private _categoriesService: CategoriesService, private _socialService: SocialService,
@@ -46,7 +47,7 @@ export class PostComponent implements OnInit {
 
   getFb() {
     this.fbLoadStatus = 'loading'
-    this._socialService.getFacebookData(this.post.link).subscribe(data => {
+    this._socialService.getFacebookData(this.post.pllPermalink).subscribe(data => {
       if (data.body.og_object) {
         this.fbShares = data.body.og_object.engagement.count
       }
@@ -56,6 +57,19 @@ export class PostComponent implements OnInit {
       this.fbLoadStatus = 'success'
     }, err => {
       this.fbLoadStatus = 'error'
+    })
+  }
+
+  getPolylangPermalink() {
+    this.polylangPermalinkLoadStatus = 'loading'
+    this._postsService.getLanguage(this.post.language[0]).subscribe(data => {
+      let lang = 'language/' + data.slug + '/'
+      let slugIndex = this.post.link.indexOf('.eu/') + 4
+      this.post.pllPermalink = [this.post.link.slice(0, slugIndex), lang, this.post.link.slice(slugIndex)].join('')
+      this.getFb()
+      this.polylangPermalinkLoadStatus = 'success'
+    }, err => {
+      this.polylangPermalinkLoadStatus = 'error'
     })
   }
 
@@ -82,30 +96,39 @@ export class PostComponent implements OnInit {
 
   getPost() {
     this.postLoadStatus = 'loading'
-    this._postsService.getPostByIdResponse(this.postId).subscribe(data => {
-      this.post = data.body
-      this.post.diets = []
-      if (this.post.categories && this.post.categories.length > 0) {
-        for (let category of this.post.categories) {
-          let diet = this.getDiet(category)
-          if (diet) {
-            this.post.diets.push(diet)
+    this._postsService.getPostById(this.postId).subscribe(data => {
+      this.post = data
+      if (!this.post.diets) {
+        // load only if not cached from previous load
+        this.post.diets = []
+        if (this.post.categories && this.post.categories.length > 0) {
+          for (let category of this.post.categories) {
+            let diet = this.getDiet(category)
+            if (diet) {
+              this.post.diets.push(diet)
+            }
           }
         }
       }
       this.titleService.setTitle(this.post.title.rendered)
 
-      if (this.post.acf.ingredients) {
-        let shoppingList: string[]
-        shoppingList = this.post.acf.ingredients.split('<br />')
-        this.post.shoppingList = []
-        if (shoppingList && shoppingList.length > 0) {
-          for (let ingredient of shoppingList) {
-            this.post.shoppingList.push({checked: false, name: ingredient})
+      if (!this.post.shoppingList) {
+        // load only if not cached from previous load
+        if (this.post.acf.ingredients) {
+          let shoppingList: string[]
+          shoppingList = this.post.acf.ingredients.split('<br />')
+          this.post.shoppingList = []
+          if (shoppingList && shoppingList.length > 0) {
+            for (let ingredient of shoppingList) {
+              this.post.shoppingList.push({checked: false, name: ingredient})
+            }
           }
         }
       }
-      this.getFb()
+      if (!this.post.pllPermalink) {
+        // load only if not cached from previous load
+        this.getPolylangPermalink()
+      }
       this.postLoadStatus = 'success'
     }, err => {
       this.postLoadStatus = 'error'

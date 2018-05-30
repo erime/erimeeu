@@ -13,6 +13,9 @@ export class Post {
   acf: any
   shoppingList: any[]
   link: string
+  language: any
+  pllPermalink: string
+  sticky: boolean
 
   constructor() {
   }
