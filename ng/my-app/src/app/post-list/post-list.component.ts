@@ -46,8 +46,8 @@ export class PostListComponent implements OnInit {
 
     currentPost.imageStatus = 'loading'
     this._mediaService.getMediaResponseById(post.featured_media).subscribe(data => {
-      let media = data.body
-      currentPost.image = media['media_details']['sizes']['shop_catalog']['source_url']
+      let media = data
+      currentPost.image = media.media_details.sizes.shop_catalog.source_url
       currentPost.imageStatus = 'success'
     }, err => {
       currentPost.imageStatus = 'error'
