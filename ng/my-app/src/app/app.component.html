@@ -13,6 +13,6 @@
 </nav>
 
 <div class="content">
-  <router-outlet></router-outlet>
+  <router-outlet (activate)="onActivate($event)"></router-outlet>
 </div>
 <div>Footer</div>
