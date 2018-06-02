@@ -12,6 +12,7 @@ import {Facebook} from '../services/facebook'
 
 import {DOCUMENT} from '@angular/common'
 import {Title} from '@angular/platform-browser'
+import {isNullOrUndefined} from 'util'
 
 @Component({
   selector: 'app-post',
@@ -20,6 +21,9 @@ import {Title} from '@angular/platform-browser'
   encapsulation: ViewEncapsulation.None
 })
 export class PostComponent implements OnInit {
+
+  SWIPE_ACTION = { LEFT: 'swipeleft', RIGHT: 'swiperight' };
+
   isShoppingList: boolean
 
   post: Post
@@ -39,9 +43,7 @@ export class PostComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router, @Inject(DOCUMENT) private document: Document, private titleService: Title) {
 
-    this.route.params.subscribe(res => {
-      this.postId = res['id']
-    })
+
 
   }
 
@@ -136,8 +138,12 @@ export class PostComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getPost()
-    this.getDiets()
+    this.route.params.subscribe(res => {
+      this.postId = res['id']
+      this.getPost()
+      this.getDiets()
+    })
+
   }
 
   showShoppingList() {
@@ -171,5 +177,24 @@ export class PostComponent implements OnInit {
 
     document.execCommand('copy')
     document.body.removeChild(selBox)
+  }
+
+  swipe(action) {
+    let nextId = undefined
+    if (action === this.SWIPE_ACTION.LEFT) {
+      nextId = this._postsService.getNextPost(this.postId)
+      if (!nextId) {
+        nextId = this.post.prev_post.id
+      }
+    } else if (action === this.SWIPE_ACTION.RIGHT) {
+      nextId = this._postsService.getPreviousPost(this.postId)
+      if (!nextId) {
+        nextId = this.post.next_post.id
+      }
+    }
+    if (nextId) {
+      this.router.navigate(['/post', nextId]);
+      window.scroll(0,0);
+    }
   }
 }

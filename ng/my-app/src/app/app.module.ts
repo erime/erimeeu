@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core'
 import {HttpClientModule} from '@angular/common/http'
 import {RouterModule, Routes} from '@angular/router'
 import {FormsModule} from '@angular/forms'
-
+import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 
 import {AppComponent} from './app.component'
 import {PostListComponent} from './post-list/post-list.component'
@@ -14,6 +14,28 @@ import {CategoriesService} from './services/categories.service'
 import {PostsService} from './services/posts.service'
 import {MediaService} from './services/media.service'
 import {SocialService} from './services/social.service'
+
+
+declare var Hammer: any;
+
+export class MyHammerConfig extends HammerGestureConfig  {
+  overrides = <any>{
+    'swipe': { direction: Hammer.DIRECTION_HORIZONTAL }
+  }
+
+  buildHammer(element: HTMLElement) {
+    const mc = new Hammer(element, {
+      touchAction: 'auto',
+      inputClass: Hammer.SUPPORT_POINTER_EVENTS ? Hammer.PointerEventInput : Hammer.TouchInput,
+      recognizers: [
+        [Hammer.Swipe, {
+          direction: Hammer.DIRECTION_HORIZONTAL
+        }]
+      ]
+    });
+    return mc;
+  }
+}
 
 
 const appRoutes: Routes = [
@@ -64,7 +86,11 @@ const appRoutes: Routes = [
     CategoriesService,
     PostsService,
     MediaService,
-    SocialService
+    SocialService,
+    {
+      provide: HAMMER_GESTURE_CONFIG,
+      useClass: MyHammerConfig
+    }
   ],
   bootstrap: [AppComponent]
 })

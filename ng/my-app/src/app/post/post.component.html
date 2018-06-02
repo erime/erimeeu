@@ -1,4 +1,5 @@
-<div id="post-wrapper" *ngIf="postLoadStatus==='success'">
+<div id="post-wrapper" *ngIf="postLoadStatus==='success'"
+     (swipeleft)="swipe($event.type)" (swiperight)="swipe($event.type)">
   <h1>{{post.title.rendered}}</h1>
   <div>Date updated: {{post.modified_gmt | date : "dd/MM/yyyy HH:mm:ss"}}</div>
 

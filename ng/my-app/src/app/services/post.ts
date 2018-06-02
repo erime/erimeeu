@@ -16,6 +16,9 @@ export class Post {
   language: any
   pllPermalink: string
   sticky: boolean
+  next_post: any
+  prev_post: any
+  date_gmt: string
 
   constructor() {
   }

@@ -33,13 +33,14 @@ export class PostsService {
       for( let post of data.body) {
         let cachedPost = this.posts.find(postSearch => postSearch.id == post.id)
         if (!cachedPost) {
-          this.posts.push(post)
+          this.cachePost(post)
         }
       }
     })
   }
 
   getPostById(id: number): Observable<Post> {
+    console.log(this.posts)
     let post = this.posts.find(postSearch => postSearch.id == id)
     if (post) {
       // get it from cache
@@ -51,8 +52,22 @@ export class PostsService {
         {observe: 'body'}
       ).do(data => {
         // add it to the cache
-        this.posts.push(data)
+        this.cachePost(data)
       })
+    }
+  }
+
+  getNextPost(id: number): number {
+    let postIndex = this.posts.findIndex(postSearch => postSearch.id == id)
+    if (postIndex > -1 && ((postIndex + 1) < this.posts.length)) {
+      return this.posts[postIndex + 1].id;
+    }
+  }
+
+  getPreviousPost(id: number): number {
+    let postIndex = this.posts.findIndex(postSearch => postSearch.id == id)
+    if (postIndex > -1 && (postIndex > 0)) {
+      return this.posts[postIndex - 1].id;
     }
   }
 
@@ -71,5 +86,18 @@ export class PostsService {
         this.languages.push(data)
       })
     }
+  }
+
+  cachePost(newPost: Post) {
+    for (let i = 0; i < this.posts.length; i++) {
+      let post = this.posts[i]
+      let postDate = Date.parse(post.date_gmt)
+      let newPostDate = Date.parse(newPost.date_gmt)
+      if (postDate < newPostDate) {
+        this.posts.splice(i, 0, newPost);
+        return
+      }
+    }
+    this.posts.push(newPost);
   }
 }
