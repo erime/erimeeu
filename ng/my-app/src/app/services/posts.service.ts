@@ -22,12 +22,13 @@ export class PostsService {
     this.languages = []
   }
 
-  getPostsResponse(page: number, countPerPage: number): Observable<HttpResponse<Post[]>> {
+  getPostsResponse(page: number, countPerPage: number, searchQuery: string): Observable<HttpResponse<Post[]>> {
     let CAT_RECIPES_EN = 20
     let CAT_RECIPES_CZ = 14
 
     return this._http.get<Post[]>(
-      'http://www.erime.eu/wp-json/wp/v2/posts?page=' + page + '&per_page=' + countPerPage + '&categories=' + CAT_RECIPES_EN,
+      'http://www.erime.eu/wp-json/wp/v2/posts?page=' + page + '&per_page=' + countPerPage + '&categories=' + CAT_RECIPES_EN +
+      (searchQuery ? '&search=' + searchQuery : ''),
       {observe: 'response'}
     ).do(data => {
       for( let post of data.body) {

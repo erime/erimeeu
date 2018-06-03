@@ -29,6 +29,7 @@ export class PostListComponent implements OnInit {
 
   postsLoadStatus: string
   dietsLoadStatus: string
+  private search: string
 
   constructor(private _postsService: PostsService, private _mediaService: MediaService,
               private _categoriesService: CategoriesService, private route: ActivatedRoute,
@@ -37,7 +38,7 @@ export class PostListComponent implements OnInit {
     this.posts = []
 
     this.page = 1
-    this.postsPerPage = 6
+    this.postsPerPage = 12
   }
 
   getMedia(post: Post) {
@@ -89,7 +90,7 @@ export class PostListComponent implements OnInit {
 
   getPosts(page: number) {
     this.postsLoadStatus = 'loading'
-    this._postsService.getPostsResponse(page, this.postsPerPage).subscribe(data => {
+    this._postsService.getPostsResponse(page, this.postsPerPage, this.search).subscribe(data => {
       this.totalPages = parseInt(data.headers.get('x-wp-totalpages'))
       this.totalPosts = parseInt(data.headers.get('x-wp-total'))
 
@@ -118,9 +119,19 @@ export class PostListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getPosts(this.page)
-    this.getDiets()
-    this.onWindowScroll()
+    this.route
+      .queryParams
+      .subscribe(params => {
+        // Defaults to 0 if no query param provided.
+        this.search = params['search'];
+        this.page = 1
+        this.posts = []
+        console.log('post search', this.search)
+        this.getPosts(this.page)
+        this.getDiets()
+        this.onWindowScroll()
+      })
+
   }
 
   @HostListener("window:scroll", [])

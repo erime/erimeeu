@@ -1,5 +1,6 @@
-import {Component, HostListener, Inject} from '@angular/core'
+import {Component, HostListener, Inject, OnInit} from '@angular/core'
 import {DOCUMENT} from '@angular/common'
+import {ActivatedRoute, Router} from '@angular/router'
 
 @Component({
   selector: 'app-root',
@@ -7,12 +8,32 @@ import {DOCUMENT} from '@angular/common'
   styleUrls: ['./app.component.less']
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit {
+
   title = 'app'
 
   fixedNav = false
+  searchString: string
 
-  constructor(@Inject(DOCUMENT) private document: Document) {
+  constructor(@Inject(DOCUMENT) private document: Document, private router: Router, private route: ActivatedRoute) {
+  }
+
+  search() {
+    console.log(this.searchString)
+    if(this.searchString) {
+      this.router.navigate(['/posts'],{ queryParams: { search: this.searchString } })
+    } else {
+      this.router.navigate(['/posts'])
+    }
+  }
+
+  ngOnInit(): void {
+    this.route
+      .queryParams
+      .subscribe(params => {
+        // Defaults to 0 if no query param provided.
+        this.searchString = params['search']
+      })
   }
 
   @HostListener("window:scroll", [])
@@ -29,7 +50,7 @@ export class AppComponent {
   }
 
   onActivate(event) {
-    window.scroll(0,0);
+    window.scroll(0,0)
   }
 
 }

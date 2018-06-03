@@ -20,6 +20,7 @@ declare var Hammer: any;
 
 export class MyHammerConfig extends HammerGestureConfig  {
   overrides = <any>{
+    'pan': { direction: Hammer.DIRECTION_HORIZONTAL },
     'swipe': { direction: Hammer.DIRECTION_HORIZONTAL }
   }
 
@@ -30,9 +31,14 @@ export class MyHammerConfig extends HammerGestureConfig  {
       recognizers: [
         [Hammer.Swipe, {
           direction: Hammer.DIRECTION_HORIZONTAL
+        }],
+        [Hammer.Pan, {
+          direction: Hammer.DIRECTION_HORIZONTAL
         }]
       ]
     });
+    mc.get('swipe').set({enable: true});
+    mc.get('pan').recognizeWith(mc.get('swipe'));
     return mc;
   }
 }

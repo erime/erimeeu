@@ -1,7 +1,8 @@
-<div id="post-wrapper" *ngIf="postLoadStatus==='success'"
-     (swipeleft)="swipe($event.type)" (swiperight)="swipe($event.type)">
+<div id="post-wrapper" *ngIf="postLoadStatus==='success'" [ngClass]="{'shift-right': peekPrevPost, 'shift-left': peekNextPost}">
   <h1>{{post.title.rendered}}</h1>
   <div>Date updated: {{post.modified_gmt | date : "dd/MM/yyyy HH:mm:ss"}}</div>
+  <div id="peek-next" *ngIf="peekNextPost">{{post.prev_post.title}}</div>
+  <div id="peek-prev" *ngIf="peekPrevPost">{{post.next_post.title}}</div>
 
   <div class="fb-likes"><img src="assets/img/facebook-logo.svg"/><div>{{fbShares}}</div></div>
 

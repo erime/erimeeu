@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit, ViewEncapsulation} from '@angular/core'
+import {Component, HostListener, Inject, OnInit, ViewEncapsulation} from '@angular/core'
 import {ActivatedRoute, Router} from '@angular/router'
 
 import {PostsService} from '../services/posts.service'
@@ -37,6 +37,11 @@ export class PostComponent implements OnInit {
   dietsLoadStatus: string
   fbLoadStatus: string
   private polylangPermalinkLoadStatus: string
+
+  private peekNextPost: boolean
+  private peekPrevPost: boolean
+  private swipingLeft: boolean
+  private swipingRight: boolean
 
   constructor(private _postsService: PostsService, private _mediaService: MediaService,
               private _categoriesService: CategoriesService, private _socialService: SocialService,
@@ -179,22 +184,49 @@ export class PostComponent implements OnInit {
     document.body.removeChild(selBox)
   }
 
-  swipe(action) {
-    let nextId = undefined
-    if (action === this.SWIPE_ACTION.LEFT) {
-      nextId = this._postsService.getNextPost(this.postId)
-      if (!nextId) {
-        nextId = this.post.prev_post.id
-      }
-    } else if (action === this.SWIPE_ACTION.RIGHT) {
-      nextId = this._postsService.getPreviousPost(this.postId)
-      if (!nextId) {
-        nextId = this.post.next_post.id
-      }
+  @HostListener('swipeleft1', ['$event']) public swipeLeft(event: any) {
+    let nextId = this._postsService.getNextPost(this.postId)
+    if (!nextId) {
+      nextId = this.post.prev_post.id
     }
     if (nextId) {
       this.router.navigate(['/post', nextId]);
       window.scroll(0,0);
+    }
+  }
+
+  @HostListener('swiperight1', ['$event']) public swipeRight(event: any) {
+    let nextId = this._postsService.getPreviousPost(this.postId)
+    if (!nextId) {
+      nextId = this.post.next_post.id
+    }
+    if (nextId) {
+      this.router.navigate(['/post', nextId]);
+      window.scroll(0,0);
+    }
+  }
+
+  @HostListener('panleft', ['$event']) public panLeft(event: any) {
+    this.peekNextPost = event.deltaX < -60 && Math.abs(event.deltaX) > Math.abs(event.deltaY*2)
+    this.peekPrevPost = false
+    this.swipingLeft = event.deltaX < -60 && Math.abs(event.deltaX) > Math.abs(event.deltaY*2)
+    this.swipingRight = false
+  }
+
+  @HostListener('panright', ['$event']) public panRight(event: any) {
+    this.peekNextPost = false
+    this.peekPrevPost = event.deltaX > 60 && Math.abs(event.deltaX) > Math.abs(event.deltaY*2)
+    this.swipingRight = event.deltaX > 60 && Math.abs(event.deltaX) > Math.abs(event.deltaY*2)
+    this.swipingLeft = false
+  }
+
+  @HostListener('panend', ['$event']) public panEnd(event: any) {
+    this.peekNextPost = false
+    this.peekPrevPost = false
+    if (this.swipingLeft) {
+      this.swipeLeft(event)
+    } else if (this.swipingRight) {
+      this.swipeRight(event)
     }
   }
 }
