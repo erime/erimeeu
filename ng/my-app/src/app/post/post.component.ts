@@ -8,11 +8,9 @@ import {SocialService} from '../services/social.service'
 
 import {Post} from '../services/post'
 import {Category} from '../services/category'
-import {Facebook} from '../services/facebook'
 
 import {DOCUMENT} from '@angular/common'
 import {Title} from '@angular/platform-browser'
-import {isNullOrUndefined} from 'util'
 
 @Component({
   selector: 'app-post',
@@ -22,19 +20,20 @@ import {isNullOrUndefined} from 'util'
 })
 export class PostComponent implements OnInit {
 
-  SWIPE_ACTION = { LEFT: 'swipeleft', RIGHT: 'swiperight' };
+  SWIPE_ACTION = {LEFT: 'swipeleft', RIGHT: 'swiperight'}
 
   isShoppingList: boolean
 
   post: Post
   postId: number
 
-  fbShares: number
-
   diets: Category[]
+  dishTypes: Category[]
 
   postLoadStatus: string
   dietsLoadStatus: string
+  dishTypesLoadStatus: string
+
   fbLoadStatus: string
   private polylangPermalinkLoadStatus: string
 
@@ -49,17 +48,16 @@ export class PostComponent implements OnInit {
               private router: Router, @Inject(DOCUMENT) private document: Document, private titleService: Title) {
 
 
-
   }
 
   getFb() {
     this.fbLoadStatus = 'loading'
     this._socialService.getFacebookData(this.post.pllPermalink).subscribe(data => {
       if (data.body.og_object) {
-        this.fbShares = data.body.og_object.engagement.count
+        this.post.fbShares = data.body.og_object.engagement.count
       }
       else {
-        this.fbShares = 0
+        this.post.fbShares = 0
       }
       this.fbLoadStatus = 'success'
     }, err => {
@@ -84,9 +82,21 @@ export class PostComponent implements OnInit {
     this.dietsLoadStatus = 'loading'
     this._categoriesService.getDiets().subscribe(data => {
       this.diets = data
+      this.updatePost()
       this.dietsLoadStatus = 'success'
     }, err => {
       this.dietsLoadStatus = 'error'
+    })
+  }
+
+  getDishTypes() {
+    this.dishTypesLoadStatus = 'loading'
+    this._categoriesService.getDishTypes().subscribe(data => {
+      this.dishTypes = data
+      this.updatePost()
+      this.dishTypesLoadStatus = 'success'
+    }, err => {
+      this.dishTypesLoadStatus = 'error'
     })
   }
 
@@ -101,22 +111,22 @@ export class PostComponent implements OnInit {
     return null
   }
 
+  getDishType(id: number): Category {
+    if (this.dishTypes && this.dishTypes.length > 0) {
+      for (let dishType of this.dishTypes) {
+        if (dishType.id === id) {
+          return dishType
+        }
+      }
+    }
+    return null
+  }
+
   getPost() {
     this.postLoadStatus = 'loading'
     this._postsService.getPostById(this.postId).subscribe(data => {
       this.post = data
-      if (!this.post.diets) {
-        // load only if not cached from previous load
-        this.post.diets = []
-        if (this.post.categories && this.post.categories.length > 0) {
-          for (let category of this.post.categories) {
-            let diet = this.getDiet(category)
-            if (diet) {
-              this.post.diets.push(diet)
-            }
-          }
-        }
-      }
+      this.updatePost()
       this.titleService.setTitle(this.post.title.rendered)
 
       if (!this.post.shoppingList) {
@@ -142,11 +152,40 @@ export class PostComponent implements OnInit {
     })
   }
 
+  updatePost() {
+    if (this.post) {
+      if (!this.post.diets) {
+        // load only if not cached from previous load
+        this.post.diets = []
+        if (this.post.categories && this.post.categories.length > 0) {
+          for (let category of this.post.categories) {
+            let diet = this.getDiet(category)
+            if (diet) {
+              this.post.diets.push(diet)
+            }
+          }
+        }
+      }
+      if (!this.post.dishTypes) {
+        this.post.dishTypes = []
+        if (this.post.dish_type && this.post.dish_type.length > 0) {
+          for (let dishTypeId of this.post.dish_type) {
+            let dishType = this.getDishType(dishTypeId)
+            if (dishType) {
+              this.post.dishTypes.push(dishType)
+            }
+          }
+        }
+      }
+    }
+  }
+
   ngOnInit() {
     this.route.params.subscribe(res => {
       this.postId = res['id']
       this.getPost()
       this.getDiets()
+      this.getDishTypes()
     })
 
   }
@@ -184,43 +223,53 @@ export class PostComponent implements OnInit {
     document.body.removeChild(selBox)
   }
 
-  @HostListener('swipeleft1', ['$event']) public swipeLeft(event: any) {
+  @HostListener('swipeleft1', ['$event'])
+  public swipeLeft(event: any) {
+    console.log('swipeleft1')
     let nextId = this._postsService.getNextPost(this.postId)
     if (!nextId) {
       nextId = this.post.prev_post.id
     }
     if (nextId) {
-      this.router.navigate(['/post', nextId]);
-      window.scroll(0,0);
+      this.router.navigate(['/post', nextId])
+      window.scroll(0, 0)
     }
   }
 
-  @HostListener('swiperight1', ['$event']) public swipeRight(event: any) {
+  @HostListener('swiperight1', ['$event'])
+  public swipeRight(event: any) {
+    console.log('swiperight1')
     let nextId = this._postsService.getPreviousPost(this.postId)
     if (!nextId) {
       nextId = this.post.next_post.id
     }
     if (nextId) {
-      this.router.navigate(['/post', nextId]);
-      window.scroll(0,0);
+      this.router.navigate(['/post', nextId])
+      window.scroll(0, 0)
     }
   }
 
-  @HostListener('panleft', ['$event']) public panLeft(event: any) {
-    this.peekNextPost = event.deltaX < -60 && Math.abs(event.deltaX) > Math.abs(event.deltaY*2)
+  @HostListener('panleft', ['$event'])
+  public panLeft(event: any) {
+    console.log('panleft')
+    this.peekNextPost = event.deltaX < -60 && Math.abs(event.deltaX) > Math.abs(event.deltaY * 2)
     this.peekPrevPost = false
-    this.swipingLeft = event.deltaX < -60 && Math.abs(event.deltaX) > Math.abs(event.deltaY*2)
+    this.swipingLeft = event.deltaX < -60 && Math.abs(event.deltaX) > Math.abs(event.deltaY * 2)
     this.swipingRight = false
   }
 
-  @HostListener('panright', ['$event']) public panRight(event: any) {
+  @HostListener('panright', ['$event'])
+  public panRight(event: any) {
+    console.log('panright')
     this.peekNextPost = false
-    this.peekPrevPost = event.deltaX > 60 && Math.abs(event.deltaX) > Math.abs(event.deltaY*2)
-    this.swipingRight = event.deltaX > 60 && Math.abs(event.deltaX) > Math.abs(event.deltaY*2)
+    this.peekPrevPost = event.deltaX > 60 && Math.abs(event.deltaX) > Math.abs(event.deltaY * 2)
+    this.swipingRight = event.deltaX > 60 && Math.abs(event.deltaX) > Math.abs(event.deltaY * 2)
     this.swipingLeft = false
   }
 
-  @HostListener('panend', ['$event']) public panEnd(event: any) {
+  @HostListener('panend', ['$event'])
+  public panEnd(event: any) {
+    console.log('panend')
     this.peekNextPost = false
     this.peekPrevPost = false
     if (this.swipingLeft) {
@@ -228,5 +277,16 @@ export class PostComponent implements OnInit {
     } else if (this.swipingRight) {
       this.swipeRight(event)
     }
+  }
+
+  @HostListener("document:keyup", ['$event'])
+  public keyDown(event: KeyboardEvent): void {
+    console.log(event)
+    if (event.srcElement.tagName === 'BODY')
+      if (event.code === "ArrowRight") {
+        this.swipeLeft(event)
+      } else if (event.code === 'ArrowLeft') {
+        this.swipeRight(event)
+      }
   }
 }

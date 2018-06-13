@@ -1,15 +1,11 @@
 import {Injectable} from '@angular/core'
 import {HttpClient, HttpResponse} from '@angular/common/http'
 
-import {Observable} from 'rxjs/Observable'
-import 'rxjs/add/operator/catch'
-import 'rxjs/add/operator/do'
-import 'rxjs/add/operator/map'
 
 import {Post} from './post'
 import {Language} from './language'
-import {Subscriber} from 'rxjs/Subscriber'
-import 'rxjs/add/observable/of'
+import {Observable} from 'rxjs/Rx'
+
 
 @Injectable()
 export class PostsService {
@@ -31,7 +27,7 @@ export class PostsService {
       (searchQuery ? '&search=' + searchQuery : ''),
       {observe: 'response'}
     ).do(data => {
-      for( let post of data.body) {
+      for (let post of data.body) {
         let cachedPost = this.posts.find(postSearch => postSearch.id == post.id)
         if (!cachedPost) {
           this.cachePost(post)
@@ -45,7 +41,7 @@ export class PostsService {
     let post = this.posts.find(postSearch => postSearch.id == id)
     if (post) {
       // get it from cache
-      return Observable.of(post);
+      return Observable.of(post)
     }
     else {
       return this._http.get<Post>(
@@ -61,14 +57,14 @@ export class PostsService {
   getNextPost(id: number): number {
     let postIndex = this.posts.findIndex(postSearch => postSearch.id == id)
     if (postIndex > -1 && ((postIndex + 1) < this.posts.length)) {
-      return this.posts[postIndex + 1].id;
+      return this.posts[postIndex + 1].id
     }
   }
 
   getPreviousPost(id: number): number {
     let postIndex = this.posts.findIndex(postSearch => postSearch.id == id)
     if (postIndex > -1 && (postIndex > 0)) {
-      return this.posts[postIndex - 1].id;
+      return this.posts[postIndex - 1].id
     }
   }
 
@@ -76,7 +72,7 @@ export class PostsService {
     let lang = this.languages.find(language => language.id == id)
     if (lang) {
       // get it from cache
-      return Observable.of(lang);
+      return Observable.of(lang)
     }
     else {
       return this._http.get<Language>(
@@ -95,10 +91,10 @@ export class PostsService {
       let postDate = Date.parse(post.date_gmt)
       let newPostDate = Date.parse(newPost.date_gmt)
       if (postDate < newPostDate) {
-        this.posts.splice(i, 0, newPost);
+        this.posts.splice(i, 0, newPost)
         return
       }
     }
-    this.posts.push(newPost);
+    this.posts.push(newPost)
   }
 }

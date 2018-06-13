@@ -1,10 +1,13 @@
-<div id="post-wrapper" *ngIf="postLoadStatus==='success'" [ngClass]="{'shift-right': peekPrevPost, 'shift-left': peekNextPost}">
+<div id="post-wrapper" *ngIf="postLoadStatus==='success'"
+     [ngClass]="{'shift-right': peekPrevPost, 'shift-left': peekNextPost}">
   <h1>{{post.title.rendered}}</h1>
   <div>Date updated: {{post.modified_gmt | date : "dd/MM/yyyy HH:mm:ss"}}</div>
   <div id="peek-next" *ngIf="peekNextPost">{{post.prev_post.title}}</div>
   <div id="peek-prev" *ngIf="peekPrevPost">{{post.next_post.title}}</div>
 
-  <div class="fb-likes"><img src="assets/img/facebook-logo.svg"/><div>{{fbShares}}</div></div>
+  <div class="fb-likes"><img src="assets/img/facebook-logo.svg"/>
+    <div>{{post.fbShares}}</div>
+  </div>
 
   <div *ngIf="isShoppingList">
     <a class="button dish" *ngIf="post.acf.ingredients" (click)="showRecipe()">Recipe</a>
@@ -26,6 +29,11 @@
     <a class="button ingredients" *ngIf="post.acf.ingredients" (click)="showShoppingList()">Shopping list</a>
     <div class="diets">
       <div *ngFor='let diet of post.diets' class="diet cat-{{diet.slug}}" title="{{diet.name}}"></div>
+    </div>
+    <div class="dish-types">
+      <div *ngFor='let dishType of post.dishTypes' class="dish-type dish-cat-{{dishType.slug}}"
+           title="{{dishType.name}}">{{dishType.name}}
+      </div>
     </div>
     <div [innerHtml]="post.content.rendered"></div>
 

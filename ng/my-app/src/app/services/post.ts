@@ -6,7 +6,6 @@ export class Post {
   featured_media: number
   image: string
   imageStatus: string
-  diets: Category[]
   categories: number[]
   slug: string
   title: any
@@ -19,6 +18,12 @@ export class Post {
   next_post: any
   prev_post: any
   date_gmt: string
+  diet: any
+  dish_type: any
+
+  fbShares: number
+  diets: Category[]
+  dishTypes: Category[]
 
   constructor() {
   }

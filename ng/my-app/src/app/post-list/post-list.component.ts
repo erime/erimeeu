@@ -22,6 +22,7 @@ export class PostListComponent implements OnInit {
 
   posts: Post[]
   diets: Category[]
+  dishTypes: Category[]
   page: number
   postsPerPage: number
   totalPosts: number
@@ -29,7 +30,10 @@ export class PostListComponent implements OnInit {
 
   postsLoadStatus: string
   dietsLoadStatus: string
+  dishTypesLoadStatus: string
+
   private search: string
+
 
   constructor(private _postsService: PostsService, private _mediaService: MediaService,
               private _categoriesService: CategoriesService, private route: ActivatedRoute,
@@ -77,11 +81,32 @@ export class PostListComponent implements OnInit {
     })
   }
 
+  getDishTypes() {
+    this.dishTypesLoadStatus = 'loading'
+    this._categoriesService.getDishTypes().subscribe(data => {
+      this.dishTypes = data
+      this.dishTypesLoadStatus = 'success'
+    }, err => {
+      this.dishTypesLoadStatus = 'error'
+    })
+  }
+
   getDiet(id: number): Category {
     if (this.diets && this.diets.length > 0) {
       for (let diet of this.diets) {
         if (diet.id === id) {
           return diet
+        }
+      }
+    }
+    return null
+  }
+
+  getDishType(id: number): Category {
+    if (this.dishTypes && this.dishTypes.length > 0) {
+      for (let dishType of this.dishTypes) {
+        if (dishType.id === id) {
+          return dishType
         }
       }
     }
@@ -102,11 +127,20 @@ export class PostListComponent implements OnInit {
           this.getMedia(post)
         }
         post.diets = []
-        if (post.categories && post.categories.length > 0) {
-          for (let category of post.categories) {
-            let diet = this.getDiet(category)
+        if (post.diet && post.diet.length > 0) {
+          for (let dietId of post.diet) {
+            let diet = this.getDiet(dietId)
             if (diet) {
               post.diets.push(diet)
+            }
+          }
+        }
+        post.dishTypes = []
+        if (post.dish_type && post.dish_type.length > 0) {
+          for (let dishTypeId of post.dish_type) {
+            let dishType = this.getDishType(dishTypeId)
+            if (dishType) {
+              post.dishTypes.push(dishType)
             }
           }
         }
@@ -123,12 +157,13 @@ export class PostListComponent implements OnInit {
       .queryParams
       .subscribe(params => {
         // Defaults to 0 if no query param provided.
-        this.search = params['search'];
+        this.search = params['search']
         this.page = 1
         this.posts = []
         console.log('post search', this.search)
         this.getPosts(this.page)
         this.getDiets()
+        this.getDishTypes()
         this.onWindowScroll()
       })
 

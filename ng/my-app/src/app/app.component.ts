@@ -20,8 +20,8 @@ export class AppComponent implements OnInit {
 
   search() {
     console.log(this.searchString)
-    if(this.searchString) {
-      this.router.navigate(['/posts'],{ queryParams: { search: this.searchString } })
+    if (this.searchString) {
+      this.router.navigate(['/posts'], {queryParams: {search: this.searchString}})
     } else {
       this.router.navigate(['/posts'])
     }
@@ -50,7 +50,7 @@ export class AppComponent implements OnInit {
   }
 
   onActivate(event) {
-    window.scroll(0,0)
+    window.scroll(0, 0)
   }
 
 }

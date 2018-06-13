@@ -1,9 +1,8 @@
-import {BrowserModule} from '@angular/platform-browser'
+import {BrowserModule, HAMMER_GESTURE_CONFIG, HammerGestureConfig} from '@angular/platform-browser'
 import {NgModule} from '@angular/core'
 import {HttpClientModule} from '@angular/common/http'
 import {RouterModule, Routes} from '@angular/router'
 import {FormsModule} from '@angular/forms'
-import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 
 import {AppComponent} from './app.component'
 import {PostListComponent} from './post-list/post-list.component'
@@ -16,15 +15,16 @@ import {MediaService} from './services/media.service'
 import {SocialService} from './services/social.service'
 
 
-declare var Hammer: any;
+declare var Hammer: any
 
-export class MyHammerConfig extends HammerGestureConfig  {
+export class MyHammerConfig extends HammerGestureConfig {
   overrides = <any>{
-    'pan': { direction: Hammer.DIRECTION_HORIZONTAL },
-    'swipe': { direction: Hammer.DIRECTION_HORIZONTAL }
+    'pan': {direction: Hammer.DIRECTION_HORIZONTAL},
+    'swipe': {direction: Hammer.DIRECTION_HORIZONTAL}
   }
 
   buildHammer(element: HTMLElement) {
+    delete Hammer.defaults.cssProps.userSelect;
     const mc = new Hammer(element, {
       touchAction: 'auto',
       inputClass: Hammer.SUPPORT_POINTER_EVENTS ? Hammer.PointerEventInput : Hammer.TouchInput,
@@ -36,10 +36,10 @@ export class MyHammerConfig extends HammerGestureConfig  {
           direction: Hammer.DIRECTION_HORIZONTAL
         }]
       ]
-    });
-    mc.get('swipe').set({enable: true});
-    mc.get('pan').recognizeWith(mc.get('swipe'));
-    return mc;
+    })
+    mc.get('swipe').set({enable: true})
+    mc.get('pan').recognizeWith(mc.get('swipe'))
+    return mc
   }
 }
 
