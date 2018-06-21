@@ -45,11 +45,6 @@ export class MyHammerConfig extends HammerGestureConfig {
 
 
 const appRoutes: Routes = [
-  // {
-  //   path: 'categories',
-  //   component: CategoriesListComponent,
-  //   data: {title: 'Categories List'}
-  // },
   {
     path: 'posts',
     component: PostListComponent,

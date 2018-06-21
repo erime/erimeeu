@@ -8,10 +8,16 @@
 
 <nav [ngClass]="{'fixed': fixedNav}">
   <a routerLink="/posts" routerLinkActive="active" title="Home"><img id="home-button" src="assets/img/home.svg"/></a>
-  <!--<a routerLink="/categories" routerLinkActive="active" title="Categories">Categories</a>-->
-  <a routerLink="/posts" routerLinkActive="active" title="Posts">Posts</a>
-  <form class="search-form" #searchForm="ngForm" (ngSubmit)="search()">
-    <input type="text" id="search" name="search" [(ngModel)]="searchString" title="Search"/>
+  <div id="nav-tabs" [ngClass]="{'expanded': recipeSelectorExpanded}">
+    <a class="dish-type-link" [ngClass]="{'active': !selectedDishType}" (click)="selectDishType(undefined)" title="Asian"><img src="assets/img/type-general.png"/></a>
+    <a class="dish-type-link" [ngClass]="{'active': selectedDishType === 567}" (click)="selectDishType(567)" title="Asian"><img src="assets/img/type-asian.png"/></a>
+    <a class="dish-type-link" [ngClass]="{'active': selectedDishType === 565}" (click)="selectDishType(565)" title="Salad"><img src="assets/img/type-salad.png"/></a>
+    <a class="dish-type-link" [ngClass]="{'active': selectedDishType === 563}" (click)="selectDishType(563)" title="Savory Baking"><img src="assets/img/type-savory-baking.png"/></a>
+    <a class="dish-type-link" [ngClass]="{'active': selectedDishType === 571}" (click)="selectDishType(571)" title="Soup"><img src="assets/img/type-soup.png"/></a>
+    <a class="dish-type-link" [ngClass]="{'active': selectedDishType === 569}" (click)="selectDishType(569)" title="Sweet Baking"><img src="assets/img/type-sweet-baking.png"/></a>
+  </div>
+  <form class="search-form" [ngClass]="{'collapsed': !searchExpanded}" #searchForm="ngForm" (ngSubmit)="search()">
+    <input *ngIf="searchExpanded" type="text" id="search" name="search" [(ngModel)]="searchString" title="Search"/>
     <button type="submit" class="btn btn-primary">&#x2315;</button>
   </form>
 </nav>

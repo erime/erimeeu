@@ -14,17 +14,28 @@ export class AppComponent implements OnInit {
 
   fixedNav = false
   searchString: string
+  selectedDishType: number
+  recipeSelectorExpanded = false
+  searchExpanded = false
 
   constructor(@Inject(DOCUMENT) private document: Document, private router: Router, private route: ActivatedRoute) {
   }
 
   search() {
-    console.log(this.searchString)
-    if (this.searchString) {
+    if (!this.searchExpanded) {
+      this.searchExpanded = true
+    } else if (this.searchString) {
       this.router.navigate(['/posts'], {queryParams: {search: this.searchString}})
     } else {
       this.router.navigate(['/posts'])
+      this.searchExpanded = false
     }
+  }
+
+  selectDishType(type: number) {
+    this.recipeSelectorExpanded = !this.recipeSelectorExpanded && (!type || this.selectedDishType === type)
+    this.selectedDishType = type
+    this.router.navigate(['/posts'], {queryParams: {dishType: this.selectedDishType}})
   }
 
   ngOnInit(): void {
@@ -33,6 +44,7 @@ export class AppComponent implements OnInit {
       .subscribe(params => {
         // Defaults to 0 if no query param provided.
         this.searchString = params['search']
+        this.selectedDishType = +params['dishType']
       })
   }
 

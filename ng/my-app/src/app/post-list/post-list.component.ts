@@ -33,6 +33,7 @@ export class PostListComponent implements OnInit {
   dishTypesLoadStatus: string
 
   private search: string
+  private dishTypeFilter: string
 
 
   constructor(private _postsService: PostsService, private _mediaService: MediaService,
@@ -115,7 +116,7 @@ export class PostListComponent implements OnInit {
 
   getPosts(page: number) {
     this.postsLoadStatus = 'loading'
-    this._postsService.getPostsResponse(page, this.postsPerPage, this.search).subscribe(data => {
+    this._postsService.getPostsResponse(page, this.postsPerPage, this.search, this.dishTypeFilter).subscribe(data => {
       this.totalPages = parseInt(data.headers.get('x-wp-totalpages'))
       this.totalPosts = parseInt(data.headers.get('x-wp-total'))
 
@@ -158,6 +159,7 @@ export class PostListComponent implements OnInit {
       .subscribe(params => {
         // Defaults to 0 if no query param provided.
         this.search = params['search']
+        this.dishTypeFilter = params['dishType']
         this.page = 1
         this.posts = []
         console.log('post search', this.search)
