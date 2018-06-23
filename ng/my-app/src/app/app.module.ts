@@ -1,7 +1,7 @@
 import {BrowserModule, HAMMER_GESTURE_CONFIG, HammerGestureConfig} from '@angular/platform-browser'
 import {NgModule} from '@angular/core'
 import {HttpClientModule} from '@angular/common/http'
-import {RouterModule, Routes} from '@angular/router'
+import {RouteReuseStrategy, RouterModule, Routes} from '@angular/router'
 import {FormsModule} from '@angular/forms'
 
 import {AppComponent} from './app.component'
@@ -13,6 +13,7 @@ import {CategoriesService} from './services/categories.service'
 import {PostsService} from './services/posts.service'
 import {MediaService} from './services/media.service'
 import {SocialService} from './services/social.service'
+import {CustomReuseStrategy} from './shared/routing'
 
 
 declare var Hammer: any
@@ -48,7 +49,7 @@ const appRoutes: Routes = [
   {
     path: 'posts',
     component: PostListComponent,
-    data: {title: 'Posts List'}
+    data: {title: 'Posts List', key: 'posts'}
   },
   {
     path: 'post/:id',
@@ -91,7 +92,8 @@ const appRoutes: Routes = [
     {
       provide: HAMMER_GESTURE_CONFIG,
       useClass: MyHammerConfig
-    }
+    },
+    { provide: RouteReuseStrategy, useClass: CustomReuseStrategy },
   ],
   bootstrap: [AppComponent]
 })

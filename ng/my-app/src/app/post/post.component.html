@@ -1,7 +1,7 @@
 <div id="post-wrapper" *ngIf="postLoadStatus==='success'"
      [ngClass]="{'shift-right': peekPrevPost, 'shift-left': peekNextPost}">
   <h1>{{post.title.rendered}}</h1>
-  <div>Date updated: {{post.modified_gmt | date : "dd/MM/yyyy HH:mm:ss"}}</div>
+  <div class="post-date">Date updated: {{post.modified_gmt | date : "dd/MM/yyyy HH:mm:ss"}}</div>
   <div id="peek-next" *ngIf="peekNextPost">{{post.prev_post.title}}</div>
   <div id="peek-prev" *ngIf="peekPrevPost">{{post.next_post.title}}</div>
 
@@ -27,12 +27,15 @@
   </div>
   <div *ngIf="!isShoppingList">
     <a class="button ingredients" *ngIf="post.acf.ingredients" (click)="showShoppingList()">Shopping list</a>
-    <div class="diets">
-      <div *ngFor='let diet of post.diets' class="diet cat-{{diet.slug}}" title="{{diet.name}}"></div>
-    </div>
+    <!--<div class="diets">-->
+      <!--<div *ngFor='let diet of post.diets' class="diet cat-{{diet.slug}}" title="{{diet.name}}"></div>-->
+    <!--</div>-->
     <div class="dish-types">
-      <div *ngFor='let dishType of post.dishTypes' class="dish-type dish-cat-{{dishType.slug}}"
-           title="{{dishType.name}}">{{dishType.name}}
+      <div *ngFor='let dishType of post.dishTypes' class="dish-type dish-cat-{{dishType.slug}}" title="{{dishType.name}}">
+        <img src="assets/img/type-{{dishType.slug}}.png"/>
+      </div>
+      <div class="diets">
+        <div *ngFor='let diet of post.diets' class="diet cat-{{diet.slug}}" title="{{diet.name}}"></div>
       </div>
     </div>
     <div [innerHtml]="post.content.rendered"></div>
