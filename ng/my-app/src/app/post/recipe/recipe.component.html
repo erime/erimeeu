@@ -1,0 +1,9 @@
+<div class="dish-types">
+  <div *ngFor='let dishType of post.dishTypes' class="dish-type dish-cat-{{dishType.slug}}" title="{{dishType.name}}">
+    <img src="assets/img/type-{{dishType.slug}}.png"/>
+  </div>
+  <div class="diets">
+    <div *ngFor='let diet of post.diets' class="diet cat-{{diet.slug}}" title="{{diet.name}}"></div>
+  </div>
+</div>
+<div [innerHtml]="post.content.rendered"></div>

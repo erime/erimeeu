@@ -1,0 +1,13 @@
+<h2>Shopping list</h2>
+<p *ngIf="post.acf.servings">{{post.acf.servings}} servings</p>
+<a class="button cross" (click)="clearShoppingList()">Deselect all</a>
+<a class="button clipboard" (click)="copyIngredients()">Copy</a>
+<form>
+  <div *ngFor='let ingredient of post.shoppingList; let i = index'>
+    <label class="checkbox-group">{{ingredient.name}}
+      <input type="checkbox" [(ngModel)]="ingredient.checked" id="ingredient-{{i}}" name="ingredient-{{i}}">
+      <span class="checkmark"></span>
+    </label>
+  </div>
+
+</form>

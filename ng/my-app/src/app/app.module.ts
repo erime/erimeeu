@@ -14,6 +14,8 @@ import {PostsService} from './services/posts.service'
 import {MediaService} from './services/media.service'
 import {SocialService} from './services/social.service'
 import {CustomReuseStrategy} from './shared/routing'
+import {ShoppingListComponent} from './post/shopping-list/shopping-list.component'
+import {RecipeComponent} from './post/recipe/recipe.component'
 
 
 declare var Hammer: any
@@ -73,7 +75,9 @@ const appRoutes: Routes = [
     AppComponent,
     PostListComponent,
     CategoriesListComponent,
-    PostComponent
+    PostComponent,
+    ShoppingListComponent,
+    RecipeComponent
   ],
   imports: [
     HttpClientModule,

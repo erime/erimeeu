@@ -157,8 +157,8 @@ export class PostComponent implements OnInit {
       if (!this.post.diets) {
         // load only if not cached from previous load
         this.post.diets = []
-        if (this.post.categories && this.post.categories.length > 0) {
-          for (let category of this.post.categories) {
+        if (this.post.diet && this.post.diet.length > 0) {
+          for (let category of this.post.diet) {
             let diet = this.getDiet(category)
             if (diet) {
               this.post.diets.push(diet)
@@ -198,30 +198,7 @@ export class PostComponent implements OnInit {
     this.isShoppingList = false
   }
 
-  clearShoppingList() {
-    if (this.post.shoppingList && this.post.shoppingList.length > 0) {
-      for (let ingredient of this.post.shoppingList) {
-        ingredient.checked = false
-      }
-    }
-  }
 
-  copyIngredients() {
-    let selBox = document.createElement('textarea')
-
-    selBox.style.position = 'fixed'
-    selBox.style.left = '0'
-    selBox.style.top = '0'
-    selBox.style.opacity = '0'
-    selBox.value = this.post.acf.ingredients
-
-    document.body.appendChild(selBox)
-    selBox.focus()
-    selBox.select()
-
-    document.execCommand('copy')
-    document.body.removeChild(selBox)
-  }
 
   @HostListener('swipeleft1', ['$event'])
   public swipeLeft(event: any) {
