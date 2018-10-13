@@ -1,8 +1,3 @@
-.wrap {
-  overflow: hidden;
-  margin: 10px;
-}
-
 div.post-outer {
   width: 25%;
   padding-bottom: 25%;
@@ -95,23 +90,7 @@ div.post-outer {
     text-align: center;
   }
 
-  div.diets {
-    z-index: 2;
-    position: absolute;
-    border-radius: 40px;
-    right: 15px;
-    bottom: 15px;
-    background: rgba(255, 255, 255, 0.5);
-    padding: 6px;
-    padding-bottom: 0px;
-    margin: 5px;
-    text-align: right;
-    vertical-align: center;
 
-    .diet {
-      margin: 3px;
-    }
-  }
 
   p.post-date {
     font-style: italic;
@@ -149,4 +128,3 @@ div.post-outer {
     padding-bottom: 25%;
   }
 }
-

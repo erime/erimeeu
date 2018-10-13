@@ -1,30 +1,32 @@
-import {BrowserModule, HAMMER_GESTURE_CONFIG, HammerGestureConfig} from '@angular/platform-browser'
-import {NgModule} from '@angular/core'
-import {HttpClientModule} from '@angular/common/http'
-import {RouteReuseStrategy, RouterModule, Routes} from '@angular/router'
-import {FormsModule} from '@angular/forms'
+import {BrowserModule, HAMMER_GESTURE_CONFIG, HammerGestureConfig} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {HttpClientModule} from '@angular/common/http';
+import {RouteReuseStrategy, RouterModule, Routes} from '@angular/router';
+import {FormsModule} from '@angular/forms';
 
-import {AppComponent} from './app.component'
-import {PostListComponent} from './post-list/post-list.component'
-import {PostComponent} from './post/post.component'
-import {CategoriesListComponent} from './categories-list/categories-list.component'
+import {AppComponent} from './app.component';
+import {PostListComponent} from './post-list/post-list.component';
+import {PostComponent} from './post/post.component';
+import {CategoriesListComponent} from './categories-list/categories-list.component';
 
-import {CategoriesService} from './services/categories.service'
-import {PostsService} from './services/posts.service'
-import {MediaService} from './services/media.service'
-import {SocialService} from './services/social.service'
-import {CustomReuseStrategy} from './shared/routing'
-import {ShoppingListComponent} from './post/shopping-list/shopping-list.component'
-import {RecipeComponent} from './post/recipe/recipe.component'
+import {CategoriesService} from './services/categories.service';
+import {PostsService} from './services/posts.service';
+import {MediaService} from './services/media.service';
+import {SocialService} from './services/social.service';
+import {CustomReuseStrategy} from './shared/routing';
+import {ShoppingListComponent} from './post/shopping-list/shopping-list.component';
+import {RecipeComponent} from './post/recipe/recipe.component';
+import {PostTileComponent} from './components/post-tile/post-tile.component';
+import { DietBarComponent } from './components/diet-bar/diet-bar.component';
+import { MenuItemComponent } from './components/menu-item/menu-item.component';
 
-
-declare var Hammer: any
+declare var Hammer: any;
 
 export class MyHammerConfig extends HammerGestureConfig {
   overrides = <any>{
     'pan': {direction: Hammer.DIRECTION_HORIZONTAL},
     'swipe': {direction: Hammer.DIRECTION_HORIZONTAL}
-  }
+  };
 
   buildHammer(element: HTMLElement) {
     delete Hammer.defaults.cssProps.userSelect;
@@ -39,13 +41,12 @@ export class MyHammerConfig extends HammerGestureConfig {
           direction: Hammer.DIRECTION_HORIZONTAL
         }]
       ]
-    })
-    mc.get('swipe').set({enable: true})
-    mc.get('pan').recognizeWith(mc.get('swipe'))
-    return mc
+    });
+    mc.get('swipe').set({enable: true});
+    mc.get('pan').recognizeWith(mc.get('swipe'));
+    return mc;
   }
 }
-
 
 const appRoutes: Routes = [
   {
@@ -67,8 +68,7 @@ const appRoutes: Routes = [
     path: '**',
     component: PostListComponent
   }
-]
-
+];
 
 @NgModule({
   declarations: [
@@ -77,7 +77,10 @@ const appRoutes: Routes = [
     CategoriesListComponent,
     PostComponent,
     ShoppingListComponent,
-    RecipeComponent
+    RecipeComponent,
+    PostTileComponent,
+    DietBarComponent,
+    MenuItemComponent
   ],
   imports: [
     HttpClientModule,
@@ -97,7 +100,7 @@ const appRoutes: Routes = [
       provide: HAMMER_GESTURE_CONFIG,
       useClass: MyHammerConfig
     },
-    { provide: RouteReuseStrategy, useClass: CustomReuseStrategy },
+    {provide: RouteReuseStrategy, useClass: CustomReuseStrategy}
   ],
   bootstrap: [AppComponent]
 })

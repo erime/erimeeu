@@ -2,11 +2,11 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Post} from '../../services/post';
 
 @Component({
-  selector: 'erime-recipe',
-  templateUrl: './recipe.component.html',
-  styleUrls: ['./recipe.component.scss']
+  selector: 'erime-post-tile',
+  templateUrl: './post-tile.component.html',
+  styleUrls: ['./post-tile.component.scss']
 })
-export class RecipeComponent implements OnInit {
+export class PostTileComponent implements OnInit {
 
   @Input() post: Post;
 

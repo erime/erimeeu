@@ -122,11 +122,11 @@
   "defaultProject": "my-app",
   "schematics": {
     "@schematics/angular:component": {
-      "prefix": "app",
-      "styleext": "less"
+      "prefix": "erime",
+      "styleext": "scss"
     },
     "@schematics/angular:directive": {
-      "prefix": "app"
+      "prefix": "erime"
     }
   }
 }

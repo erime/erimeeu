@@ -21,14 +21,11 @@
     </div>
   </div>
 
-
-
-
   <div *ngIf="isShoppingList">
-    <app-shopping-list [post]="post"></app-shopping-list>
+    <erime-shopping-list [post]="post"></erime-shopping-list>
   </div>
   <div *ngIf="!isShoppingList">
-    <app-recipe [post]="post"></app-recipe>
+    <erime-recipe [post]="post"></erime-recipe>
 
   </div>
 

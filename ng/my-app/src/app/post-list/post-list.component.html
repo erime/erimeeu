@@ -5,21 +5,9 @@
   </div>
   <div *ngIf="postsLoadStatus==='error'">Error loading posts</div>
   <div *ngIf="posts.length > 0">
-    <a [routerLink]="['/post/',post.id]" *ngFor='let post of posts'>
-      <div class="post-outer">
-
-        <div class="post-inner">
-          <h1>{{post.acf.short_title ? post.acf.short_title : post.title.rendered}}</h1>
-          <div class="diets">
-            <div *ngFor='let diet of post.diets' class="diet cat-{{diet.slug}}" title="{{diet.name}}"></div>
-          </div>
-          <div class="spinner-loader" *ngIf="post.imageStatus ==='loading'"></div>
-          <img *ngIf="post.image" src="{{post.image}}" alt="img">
-          <img *ngIf="!post.image" src="assets/img/post-no-image.png" alt="img">
-        </div>
-
-      </div>
-    </a>
+    <div *ngFor="let post of posts">
+      <erime-post-tile [post]="post"></erime-post-tile>
+    </div>
   </div>
   <div *ngIf="postsLoadStatus==='loading'" class="post-outer">
     <div class="post-inner">

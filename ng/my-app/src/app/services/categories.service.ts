@@ -1,16 +1,15 @@
-import {Injectable} from '@angular/core'
-import {HttpClient} from '@angular/common/http'
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 
-
-import {Category} from './category'
-import {Observable} from 'rxjs/Rx'
+import {Category} from './category';
+import {Observable, of} from 'rxjs';
 
 @Injectable()
 export class CategoriesService {
 
-  categories: Category[]
-  diets: Category[]
-  dishTypes: Category[]
+  categories: Category[];
+  diets: Category[];
+  dishTypes: Category[];
 
   constructor(private _http: HttpClient) {
   }
@@ -18,45 +17,42 @@ export class CategoriesService {
   getCategories(): Observable<Category[]> {
     if (this.categories) {
       // get it from cache
-      return Observable.of(this.categories)
-    }
-    else {
+      return of(this.categories);
+    } else {
       return this._http.get<Category[]>(
         'http://www.erime.eu/wp-json/wp/v2/categories?per_page=100'
       ).do(data => {
         // add it to the cache
-        this.categories = data
-      })
+        this.categories = data;
+      });
     }
   }
 
   getDiets(): Observable<Category[]> {
     if (this.diets) {
       // get it from cache
-      return Observable.of(this.diets)
-    }
-    else {
+      return of(this.diets);
+    } else {
       return this._http.get<Category[]>(
         'http://www.erime.eu/wp-json/wp/v2/diet'
       ).do(data => {
         // add it to the cache
-        this.diets = data
-      })
+        this.diets = data;
+      });
     }
   }
 
   getDishTypes(): Observable<Category[]> {
     if (this.dishTypes) {
       // get it from cache
-      return Observable.of(this.dishTypes)
-    }
-    else {
+      return of(this.dishTypes);
+    } else {
       return this._http.get<Category[]>(
         'http://www.erime.eu/wp-json/wp/v2/dish_type'
       ).do(data => {
         // add it to the cache
-        this.dishTypes = data
-      })
+        this.dishTypes = data;
+      });
     }
   }
 

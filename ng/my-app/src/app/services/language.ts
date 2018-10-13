@@ -1,7 +1,7 @@
 export class Language {
 
-  id: number
-  slug: string
+  id: number;
+  slug: string;
 
   constructor() {
   }

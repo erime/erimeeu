@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core'
-import {HttpClient, HttpResponse} from '@angular/common/http'
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpResponse} from '@angular/common/http';
 
-
-import {Facebook} from './facebook'
-import {Observable} from 'rxjs/Rx'
+import {Facebook} from './facebook';
+import {Observable} from 'rxjs';
+import 'rxjs-compat/add/operator/do';
 
 @Injectable()
 export class SocialService {
@@ -13,10 +13,11 @@ export class SocialService {
 
   getFacebookData(url: string): Observable<HttpResponse<Facebook>> {
     return this._http.get<Facebook>(
-      'https://graph.facebook.com/?fields=id,share,og_object{engagement,likes.summary(true).limit(0),comments.limit(0).summary(true)}&id=' + url,
+      'https://graph.facebook.com/?fields=id,share,og_object{engagement,likes.summary(true).limit(0),' +
+      'comments.limit(0).summary(true)}&id=' + url,
       {observe: 'response'}
     ).do(data => {
-    })
+    });
   }
 
 }

@@ -1,7 +1,7 @@
 export class Media {
 
-  id: number
-  media_details: any
+  id: number;
+  media_details: any;
 
   constructor() {
   }

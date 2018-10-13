@@ -1,6 +1,6 @@
 export class Facebook {
 
-  og_object: any
+  og_object: any;
 
   constructor() {
   }

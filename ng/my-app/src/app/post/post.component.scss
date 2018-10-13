@@ -56,7 +56,7 @@ div#post-wrapper {
 }
 
 #peek-next {
-  border-radius: ~'70% / 0px 0px 100PX 100px';
+  border-radius: 70% / 0px 0px 100px 100px;
   color: white;
   height: 40px;
   background-color: rgba(0, 0, 0, 0.4);
@@ -71,7 +71,7 @@ div#post-wrapper {
 }
 
 #peek-prev {
-  border-radius: ~'70% / 0px 0px 100PX 100px';
+  border-radius: 70% / 0px 0px 100px 100px;
   color: white;
   height: 40px;
   background-color: rgba(0, 0, 0, 0.4);
@@ -140,10 +140,10 @@ div#post-wrapper {
 }
 
 .right-80 {
-     width: 80%;
-     display: inline-block;
-     text-align: right;
-   }
+  width: 80%;
+  display: inline-block;
+  text-align: right;
+}
 
 p {
   text-align: justify;
