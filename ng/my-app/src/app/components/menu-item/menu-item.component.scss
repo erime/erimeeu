@@ -1,0 +1,43 @@
+a {
+  float: left;
+  padding: 5px 10px 0px 10px;
+  vertical-align: middle;
+  text-decoration: none;
+  background-color: #777777;
+  color: white;
+  -webkit-transition: background-color 0.7s;
+  transition: background-color 0.7s;
+
+  border-radius: 0 0 55px 55px;
+  border-style: solid;
+  border-width: 0 1px 1px 1px;
+  border-color: white;
+  height: 49px;
+  cursor: pointer;
+  box-shadow: 4px 4px 10px 0px rgba(0,0,0,0.5);
+
+  &.dish-type-link {
+
+    &.active {
+      background-color: #b98c6b;
+    }
+    @media only screen and (max-width: 480px) {
+      &.expanded.middle {
+        border-style: solid;
+        border-radius: 0;
+        border-width: 0 1px;
+        border-color: white;
+      }
+      &:not(.expanded):not(.active) {
+        background-color: #6f8cb9;
+        display: none;
+      }
+    }
+
+
+  }
+
+  &:hover {
+    background-color: #333333;
+  }
+}

@@ -1,0 +1,2 @@
+<a class="dish-type-link" [ngClass]="{'active': active(), 'middle': !last, 'expanded': menuExpanded}" (click)="selectDishType()"
+   title="{{dish.name}}"><img src="assets/img/type-{{dish.slug}}.png"/></a>

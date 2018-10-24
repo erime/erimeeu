@@ -19,6 +19,7 @@ import {RecipeComponent} from './post/recipe/recipe.component';
 import {PostTileComponent} from './components/post-tile/post-tile.component';
 import { DietBarComponent } from './components/diet-bar/diet-bar.component';
 import { MenuItemComponent } from './components/menu-item/menu-item.component';
+import { MenuBarComponent } from './components/menu-bar/menu-bar.component';
 
 declare var Hammer: any;
 
@@ -80,7 +81,8 @@ const appRoutes: Routes = [
     RecipeComponent,
     PostTileComponent,
     DietBarComponent,
-    MenuItemComponent
+    MenuItemComponent,
+    MenuBarComponent
   ],
   imports: [
     HttpClientModule,

@@ -1,0 +1,16 @@
+<nav [ngClass]="{'fixed': fixedNav}">
+  <a routerLink="/posts" routerLinkActive="active" title="Home"><img id="home-button" src="assets/img/home.svg"/></a>
+  <div id="nav-tabs" [ngClass]="{'expanded': recipeSelectorExpanded}">
+    <a class="dish-type-link" [ngClass]="{'active': !selectedDishType}" (click)="selectDishType(undefined)"
+       title="All"><img src="assets/img/type-general.png"/></a>
+    <erime-menu-item class="menu-link" *ngFor="let dish of dishTypes; let isLast = last" [dish]="dish" [selectedDishType]="selectedDishType"
+                     [last]="isLast" [menuExpanded]="recipeSelectorExpanded"
+                     (dishTypeChanged)="selectDishType($event)"></erime-menu-item>
+  </div>
+  <div>
+  <form class="search-form" [ngClass]="{'collapsed': !searchExpanded}" #searchForm="ngForm" (ngSubmit)="search()">
+    <input *ngIf="searchExpanded" type="text" id="search" name="search" [(ngModel)]="searchString" title="Search"/>
+    <button type="submit" class="btn btn-primary">&#x2315;</button>
+  </form>
+  </div>
+</nav>

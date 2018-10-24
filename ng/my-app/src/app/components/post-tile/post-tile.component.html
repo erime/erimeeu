@@ -3,7 +3,9 @@
 
     <div class="post-inner">
       <h1>{{post.acf.short_title ? post.acf.short_title : post.title.rendered}}</h1>
-      <erime-diet-bar [diets]="post.diets"></erime-diet-bar>
+      <div class="diet-bar">
+        <erime-diet-bar [diets]="post.diets"></erime-diet-bar>
+      </div>
       <div class="spinner-loader" *ngIf="post.imageStatus ==='loading'"></div>
       <img *ngIf="post.image" src="{{post.image}}" alt="img">
       <img *ngIf="!post.image" src="assets/img/post-no-image.png" alt="img">
